@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="business">
+	<parameterMap id="fullParameterMapExample" class="Account">  
+	    <parameter property="accountId" jdbcType="NUMBER"/>  
+	    <parameter property="username" jdbcType="VARCHAR"/>  
+	    <parameter property="password" jdbcType="VARCHAR"/>  
+	    <parameter property="memberSince" jdbcType="TIMESTAMP"/>  
+	    <parameter property="firstName" jdbcType="VARCHAR"/>  
+	    <parameter property="lastName" jdbcType="VARCHAR"/>  
+	    <parameter property="address1" jdbcType="VARCHAR"/>  
+	    <parameter property="address2" jdbcType="VARCHAR"/>  
+	    <parameter property="city" jdbcType="VARCHAR"/>  
+	    <parameter property="state" jdbcType="VARCHAR"/>  
+	    <parameter property="postalCode" jdbcType="VARCHAR"/>  
+	    <parameter property="country" jdbcType="VARCHAR"/>  
+	    <parameter property="version" jdbcType="NUMBER"/>  
+	</parameterMap>
+	
+	<statement id="create_nexist">
+		CREATE TABLE IF NOT EXISTS `business` (
+		  `business_id` int(11) NOT NULL AUTO_INCREMENT,
+		  `property_id` int(11) DEFAULT '-1',
+		  `business_owner` varchar(10) DEFAULT '',
+		  `business_owner_idcard` varchar(20) DEFAULT '',
+		  `business_name` varchar(20) DEFAULT '',
+		  `business_scope` varchar(20) DEFAULT '',
+		  `rent` double DEFAULT '0',
+		  `transfer_fee` double DEFAULT '0',
+		  `business_start` datetime DEFAULT NULL,
+		  `business_end` datetime DEFAULT NULL,
+		  `regist_corporation` varchar(10) DEFAULT '',
+		  `phone1` varchar(20) DEFAULT '',
+		  `phone2` varchar(20) DEFAULT '',
+		  `comment` varchar(255) DEFAULT '',
+		  `record_time` datetime DEFAULT NULL,
+		  `record_person` varchar(10) DEFAULT '', 
+		  `record_person_belong` varchar(10) DEFAULT '',
+		  `checked` varchar(5) DEFAULT '',
+		  `checked_person` varchar(10) DEFAULT '',
+		  PRIMARY KEY (`business_id`)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+	</statement>
+	
+	<statement id="insert" parameterClass="com.ibatis.bean.business" >
+		 insert into business(
+			 property_id,
+			 business_owner,
+			 business_owner_idcard,
+			 business_name,
+			 business_scope,
+			 rent,
+			 transfer_fee,
+			 business_start,
+			 business_end,
+			 regist_corporation,
+			 phone1,
+			 phone2,
+			 comment,
+			 record_time,
+			 record_person,
+			 record_person_belong,
+			 checked,
+			 checked_person
+		)
+		values(
+			 #property_id#,
+			 #business_owner#,
+			 #business_owner_idcard#,
+			 #business_name#,
+			 #business_scope#,
+			 #rent#,
+			 #transfer_fee#,
+			 #business_start#,
+			 #business_end#,
+			 #regist_corporation#,
+			 #phone1#,
+			 #phone2#,
+			 #comment#,
+			 #record_time#,
+			 #record_person#,
+			 #record_person_belong#,
+			 #checked#,
+			 #checked_person#
+		);
+	</statement>
+	
+	<statement id="deleteByID" parameterClass="com.ibatis.bean.business">
+		delete from business where business_id=#business_id#;
+	</statement>
+	
+	<statement id="selectByID" parameterClass="com.ibatis.bean.business"
+		resultClass="com.ibatis.bean.business"  >
+		
+		select * from business where business_id=#business_id#;
+	</statement>
+	
+	<statement id="selectByProID" parameterClass="com.ibatis.bean.business"
+		resultClass="com.ibatis.bean.business">
+		select * from business where property_id=#property_id#;
+	</statement>
+	
+	<statement id="selectAll" resultClass="com.ibatis.bean.business">
+		select * from business;
+	</statement>
+	
+	<statement id="update" parameterClass="com.ibatis.bean.business" >
+		update business set
+			 property_id=#property_id#,
+			 business_owner=#business_owner#,
+			 business_owner_idcard=#business_owner_idcard#,
+			 business_name=#business_name#,
+			 business_scope=#business_scope#,
+			 rent=#rent#,
+			 transfer_fee=#transfer_fee#,
+			 business_start=#business_start#,
+			 business_end=#business_end#,
+			 regist_corporation=#regist_corporation#,
+			 phone1=#phone1#,
+			 phone2=#phone2#,
+			 comment=#comment#,
+			 record_time=#record_time#,
+			 record_person=#record_person#,
+			 record_person_belong=#record_person_belong#,
+			 checked=#checked#,
+			 checked_person=#checked_person#
+		where
+			 business_id=#business_id#
+		;
+	</statement>
+	
+</sqlMap>
+

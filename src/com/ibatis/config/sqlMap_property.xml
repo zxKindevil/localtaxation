@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="property">
+	<statement id="create_nexist">
+		CREATE TABLE IF NOT EXISTS `property` (
+		  `property_id` int(11) NOT NULL AUTO_INCREMENT,
+		  `system_code` varchar(20) DEFAULT '',
+		  `street` varchar(20) DEFAULT '',
+		  `property_code` varchar(20) DEFAULT '',
+		  `property_owner` varchar(10) DEFAULT '',
+		  `property_owner_idcard` varchar(20) DEFAULT '',
+		  `property_idcard` varchar(20) DEFAULT '',
+		  `property_value` double DEFAULT '0',
+		  `property_area` double DEFAULT '0',
+		  `property_category` varchar(10) DEFAULT '',
+		  `property_use` varchar(10) DEFAULT '',
+		  `property_adress` varchar(50) DEFAULT '',
+		  `phone1` varchar(20) DEFAULT '',
+		  `phone2` varchar(20) DEFAULT '',
+		  `comment` varchar(255) DEFAULT '',
+		  `record_time` datetime DEFAULT NULL,
+		  `record_person` varchar(10) DEFAULT '',
+		  `record_person_belong` varchar(10) DEFAULT '',
+		  `checked` varchar(5) DEFAULT '',
+		  `checked_person` varchar(10) DEFAULT '',
+		  PRIMARY KEY (`property_id`)
+		) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+	</statement>
+	
+	<statement id="insert" parameterClass="com.ibatis.bean.property" >
+		 INSERT INTO `property` (
+			`system_code`,
+			`street`,
+			`property_code`,
+			`property_owner`,
+			`property_owner_idcard`,
+			`property_idcard`,
+			`property_value`,
+			`property_area`,
+			`property_category`,
+			`property_use`,
+			`property_adress`,
+			`phone1`,
+			`phone2`,
+			`comment`,
+			`record_time`,
+			`record_person`,
+			`record_person_belong`,
+			`checked`,
+			`checked_person`
+		)
+		VALUES(
+			#system_code#,
+			#street#,
+			#property_code#,
+			#property_owner#,
+			#property_owner_idcard#,
+			#property_idcard#,
+			#property_value#,
+			#property_area#,
+			#property_category#,
+			#property_use#,
+			#property_adress#,
+			#phone1#,
+			#phone2#,
+			#comment#,
+			#record_time#,
+			#record_person#,
+			#record_person_belong#,
+			#checked#,
+			#checked_person#
+		);
+	</statement>
+	
+	<statement id="deleteByID" parameterClass="com.ibatis.bean.property">
+		delete from property where property_id=#property_id#;
+	</statement>
+	
+	<statement id="selectByID" parameterClass="com.ibatis.bean.property"
+		resultClass="com.ibatis.bean.property">
+		select * from property where property_id=#property_id#;
+	</statement>
+	
+	<statement id="selectByQuePro" parameterClass="com.ibatis.bean.queryBean"
+		resultClass="com.ibatis.bean.property">
+		select * from property 
+		<dynamic prepend="where" >
+			<isNotEmpty property="property_id"
+						prepend="and" open="(" close=")">
+				property_id=#property_id#
+			</isNotEmpty>
+			
+			<isNotEmpty property="system_code"
+						prepend="and" open="(" close=")">
+				system_code=#system_code#
+			</isNotEmpty>
+			
+			<isNotEmpty property="street"
+						prepend="and" open="(" close=")">
+				street like '%$street$%'
+			</isNotEmpty>
+			
+			<isNotEmpty property="property_code"
+						prepend="and" open="(" close=")">
+				property_code like '%$property_code$%'
+			</isNotEmpty>			
+			
+			<isNotEmpty property="property_owner"
+						prepend="and" open="(" close=")">
+				property_owner like '%$property_owner$%'
+			</isNotEmpty>
+			
+			<isNotEmpty property="property_owner_idcard"
+						prepend="and" open="(" close=")">
+				property_owner_idcard=#property_owner_idcard#
+			</isNotEmpty>
+			
+			<isNotEmpty property="property_idcard"
+						prepend="and" open="(" close=")">
+				property_idcard=#property_idcard#
+			</isNotEmpty>
+			
+			<isNotEmpty property="property_category"
+						prepend="and" open="(" close=")">
+				property_category=#property_category#
+			</isNotEmpty>
+			
+			<isNotEmpty property="property_use"
+						prepend="and" open="(" close=")">
+				property_use=#property_use#
+			</isNotEmpty>
+			
+			<isNotEmpty property="checked"
+						prepend="and" open="(" close=")">
+				checked=#checked#
+			</isNotEmpty>
+			
+		</dynamic>
+	</statement>
+	
+	<statement id="selectAll" resultClass="com.ibatis.bean.property">
+		select * from property;
+	</statement>
+	
+	<statement id="update" parameterClass="com.ibatis.bean.property" >
+	</statement>
+	
+</sqlMap>
+

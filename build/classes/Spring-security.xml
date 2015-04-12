@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+
+<beans xmlns="http://www.springframework.org/schema/beans"  
+	xmlns:security="http://www.springframework.org/schema/security"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans  
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+           http://www.springframework.org/schema/security  
+           http://www.springframework.org/schema/security/spring-security.xsd"> 
+   
+    <!--  Spring-Security 的配置 -->
+    <!-- 注意开启use-expressions.表示开启表达式.  
+    see:http://www.family168.com/tutorial/springsecurity3/html/el-access.html  
+     -->  
+    <security:http>  
+       	<security:intercept-url pattern="/mainview/**" 
+       		access="ROLE_MANAGER,ROLE_USER,ROLE_GUEST" />
+        
+        <security:form-login login-page="/login.jsp" 
+        	authentication-failure-url="/login.jsp?error=true"  />
+        <security:logout logout-success-url="/login.jsp" />
+        <security:remember-me/>
+    </security:http>  
+       
+    <!-- 指定一个自定义的authentication-manager :customUserDetailsService -->  
+    <security:authentication-manager>  
+            <security:authentication-provider>  
+                    <security:jdbc-user-service data-source-ref="datasource"/>
+            </security:authentication-provider>  
+    </security:authentication-manager>  
+	
+	<bean id="datasource" 
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/localtaxation" />
+		<property name="username" value="root" />
+		<property name="password" value="kindevil" />
+	</bean>
+	
+</beans>

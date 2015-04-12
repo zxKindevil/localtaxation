@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="queryPBT">
+	<statement id="create_nexist">
+	</statement>
+	
+	<statement id="insert" parameterClass="com.ibatis.bean.queryPBT" >
+	</statement>
+	
+	<statement id="deleteByID" parameterClass="com.ibatis.bean.queryPBT">
+	</statement>
+	
+	<statement id="selectByID" parameterClass="com.ibatis.bean.queryPBT"
+		resultClass="com.ibatis.bean.queryPBT">
+	</statement>
+	
+	<statement id="selectByQuePBT" parameterClass="com.ibatis.bean.queryPBT"
+		resultClass="com.ibatis.bean.queryPBT">
+			SELECT
+				p.property_id as p_property_id,
+				p.system_code as p_system_code,
+				p.street as p_street,
+				p.property_code as p_property_code,
+				p.property_owner as p_property_owner,
+				p.property_owner_idcard as p_property_owner_idcard,
+				p.property_idcard as p_property_idcard,
+				p.property_value as p_property_value,
+				p.property_area as p_property_area,
+				p.property_category as p_property_category,
+				p.property_use as p_property_use,
+				p.property_adress as p_property_adress,
+				p.phone1 as p_phone1,
+				p.phone2 as p_phone2,
+				p. COMMENT as p_COMMENT,
+				p.record_time as p_record_time,
+				p.record_person as p_record_person,
+				p.record_person_belong as p_record_person_belong,
+				p.checked as p_checked,
+				p.checked_person as p_checked_person,
+		
+				t.tax_id as  t_tax_id,
+				t.property_id as  t_property_id,
+				t.business_tax as t_business_tax,
+				t.individual_income_tax as t_individual_income_tax,
+				t.urban_construction_tax as t_urban_construction_tax,
+				t.education_surcharge as t_education_surcharge,
+				t.local_education_surcharge as t_local_education_surcharge,
+				t.stamp_tax as t_stamp_tax,
+				t.price_regulation_fund as t_price_regulation_fund ,
+				t.building_tax as t_building_tax ,
+				t.land_use_tax as t_land_use_tax,
+				t.fine_for_delaying_payment as t_fine_for_delaying_payment ,
+				t.fine as t_fine ,
+				t.total_tax as t_total_tax ,
+				t.first_half_year as t_first_half_year ,
+				t.second_half_year as t_second_half_year ,
+				t.tax_year as t_tax_year ,
+				t.comment as t_comment ,
+				t.record_time as  t_record_time,
+				t.record_person as  t_record_person,
+				t.record_person_belong as t_record_person_belong ,
+				t.checked as t_checked ,
+				t.checked_person as t_checked_person ,
+		
+				b.business_id as b_business_id ,
+				b.property_id as b_property_id ,
+				b.business_owner as b_business_owner ,
+				b.business_owner_idcard as b_business_owner_idcard ,
+				b.business_name as b_business_name ,
+				b.business_scope as b_business_scope ,
+				b.rent as b_rent ,
+				b.transfer_fee as b_transfer_fee ,
+				b.business_start as b_business_start ,
+				b.business_end as b_business_end ,
+				b.regist_corporation as b_regist_corporation ,
+				b.phone1 as b_phone1 ,
+				b.phone2 as b_phone2 ,
+				b.comment as b_comment ,
+				b.record_time as b_record_time ,
+				b.record_person as b_record_person ,
+				b.record_person_belong as b_record_person_belong ,
+				b.checked as b_checked ,
+				b.checked_person as b_checked_person
+			FROM
+				property p
+				join (tax t) on ( p.property_id = t.property_id )
+				left join (business b) on ( b.property_id=p.property_id and (  DATE_FORMAT(b.business_start,'%Y') &lt; t.tax_year AND DATE_FORMAT(b.business_end,'%Y') >= t.tax_year ) )
+			
+			<dynamic prepend="where" >
+				<isNotEmpty property="p_property_id"
+							prepend="and" open="(" close=")">
+					p.property_id=#p_property_id#
+				</isNotEmpty>
+				
+				<isNotEmpty property="p_street"
+							prepend="and" open="(" close=")">
+					p.treet like '%$p_street$%'
+				</isNotEmpty>
+				
+				<isNotEmpty property="p_property_owner"
+							prepend="and" open="(" close=")">
+					p.property_owner=#p_property_owner#
+				</isNotEmpty>
+				
+				<isNotEmpty property="p_property_owner_idcard"
+							prepend="and" open="(" close=")">
+					p.property_owner_idcard=#p_property_owner_idcard#
+				</isNotEmpty>
+				
+				<isNotEmpty property="t_tax_year"
+							prepend="and" open="(" close=")">
+					t.tax_year=#t_tax_year#
+				</isNotEmpty>
+				
+				<isNotEmpty property="t_checked"
+							prepend="and" open="(" close=")">
+					t.checked=#t_checked#
+				</isNotEmpty>
+				
+				<isNotEmpty property="t_first_half_year"
+							prepend="and" open="(" close=")">
+					<isEqual property="t_first_half_year" compareValue="true" >
+						t.first_half_year=#t_second_half_year# and t.second_half_year=#t_second_half_year#
+					</isEqual>
+					
+					<isEqual property="t_first_half_year" compareValue="false" >
+						t.first_half_year=#t_second_half_year# || t.second_half_year=#t_second_half_year#
+					</isEqual>
+				</isNotEmpty>
+				
+			</dynamic>
+			;
+	</statement>
+	
+	<statement id="selectAll" resultClass="com.ibatis.bean.queryPBT">
+		SELECT
+			p.property_id as'房产ID',
+			
+			b.business_id as '经营ID',
+			b.business_start as '经营开始',
+			b.business_end as '经营结束',
+			
+			t.tax_id as '税务ID',
+			t.tax_year as '税务年度',
+		  
+			p.property_id as p_property_id,
+			p.system_code as p_system_code,
+			p.street as p_street,
+			p.property_code as p_property_code,
+			p.property_owner as p_property_owner,
+			p.property_owner_idcard as p_property_owner_idcard,
+			p.property_idcard as p_property_idcard,
+			p.property_value as p_property_value,
+			p.property_area as p_property_area,
+			p.property_category as p_property_category,
+			p.property_use as p_property_use,
+			p.property_adress as p_property_adress,
+			p.phone1 as p_phone1,
+			p.phone2 as p_phone2,
+			p. COMMENT as p_COMMENT,
+			p.record_time as p_record_time,
+			p.record_person as p_record_person,
+			p.record_person_belong as p_record_person_belong,
+			p.checked as p_checked,
+			p.checked_person as p_checked_person,
+	
+			t.tax_id,
+			t.property_id,
+			t.business_tax,
+			t.individual_income_tax,
+			t.urban_construction_tax,
+			t.education_surcharge,
+			t.local_education_surcharge,
+			t.stamp_tax,
+			t.price_regulation_fund,
+			t.building_tax,
+			t.land_use_tax,
+			t.fine_for_delaying_payment,
+			t.fine,
+			t.total_tax,
+			t.first_half_year,
+			t.second_half_year,
+			t.tax_year,
+			t.comment,
+			t.record_time,
+			t.record_person,
+			t.record_person_belong,
+			t.checked,
+			t.checked_person,
+	
+			 b.business_id,
+			 b.property_id,
+			 b.business_owner,
+			 b.business_owner_idcard,
+			 b.business_name,
+			 b.business_scope,
+			 b.rent,
+			 b.transfer_fee,
+			 b.business_start,
+			 b.business_end,
+			 b.regist_corporation,
+			 b.phone1,
+			 b.phone2,
+			 b.comment,
+			 b.record_time,
+			 b.record_person,
+			 b.record_person_belong,
+			 b.checked,
+			 b.checked_person
+		FROM
+			property p,
+			tax t,
+			business b
+		WHERE
+			p.property_id = t.property_id
+		AND p.property_id=b.property_id
+		AND DATE_FORMAT(b.business_start,'%Y') &lt; t.tax_year AND DATE_FORMAT(b.business_end,'%Y') >= t.tax_year
+		;
+	</statement>
+	
+	<statement id="update" parameterClass="com.ibatis.bean.queryPBT" >
+	</statement>
+	
+</sqlMap>
+

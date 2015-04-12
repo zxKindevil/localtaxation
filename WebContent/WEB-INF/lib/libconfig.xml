@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<libs>
+	<SpringSecurity>
+		<dependency>spring-security-acl-3.1.0.RELEASE</dependency>
+		<dependency>spring-security-config-3.1.0.RELEASE</dependency>
+		<dependency>spring-security-core-3.1.0.RELEASE</dependency>
+		<dependency>spring-security-crypto-3.1.0.RELEASE</dependency>
+		<dependency>spring-security-ldap-3.1.0.RELEASE</dependency>
+		<dependency>spring-security-taglibs-3.1.0.RELEASE</dependency>
+		<dependency>spring-security-web-3.1.0.RELEASE</dependency>
+		
+	</SpringSecurity>
+	
+	<poi>
+		<dependency>poi-3.9-20121203.jar</dependency>
+	</poi>
+</libs>

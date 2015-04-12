@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="tax">
+
+	<statement id="create_nexist">
+		CREATE TABLE IF NOT EXISTS `tax` (
+		  `tax_id` int(11) NOT NULL AUTO_INCREMENT,
+		  `property_id` int(11) NOT NULL DEFAULT '0',
+		  `business_tax` double DEFAULT '0',
+		  `individual_income_tax` double DEFAULT '0',
+		  `urban_construction_tax` double DEFAULT '0',
+		  `education_surcharge` double DEFAULT '0',
+		  `local_education_surcharge` double DEFAULT '0',
+		  `stamp_tax` double DEFAULT '0',
+		  `price_regulation_fund` double DEFAULT '0',
+		  `building_tax` double DEFAULT '0',
+		  `land_use_tax` double DEFAULT '0',
+		  `fine_for_delaying_payment` double DEFAULT '0',
+		  `fine` double DEFAULT '0',
+		  `total_tax` double DEFAULT '0',
+		  `first_half_year` varchar(5) DEFAULT '',
+		  `second_half_year` varchar(5) DEFAULT '',
+		  `tax_year` varchar(4) DEFAULT '',
+		  `comment` varchar(255) DEFAULT '',
+		  `record_time` datetime DEFAULT NULL,
+		  `record_person` varchar(10) DEFAULT '',
+		  `record_person_belong` varchar(10) DEFAULT '',
+		  `checked` varchar(5) DEFAULT '',
+		  `checked_person` varchar(10) DEFAULT '',
+		  PRIMARY KEY (`tax_id`)
+		) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+	</statement>
+	
+	<statement id="insert" parameterClass="com.ibatis.bean.tax" >
+		   insert into tax(
+			  property_id,
+			  business_tax,
+			  individual_income_tax,
+			  urban_construction_tax,
+			  education_surcharge,
+			  local_education_surcharge,
+			  stamp_tax,
+			  price_regulation_fund,
+			  building_tax,
+			  land_use_tax,
+			  fine_for_delaying_payment,
+			  fine,
+			  total_tax,
+			  first_half_year,
+			  second_half_year,
+			  tax_year,
+			  comment,
+			  record_time,
+			  record_person,
+			  record_person_belong,
+			  checked,
+			  checked_person
+			)
+			values(
+			  #property_id#,
+			  #business_tax#,
+			  #individual_income_tax#,
+			  #urban_construction_tax#,
+			  #education_surcharge#,
+			  #local_education_surcharge#,
+			  #stamp_tax#,
+			  #price_regulation_fund#,
+			  #building_tax#,
+			  #land_use_tax#,
+			  #fine_for_delaying_payment#,
+			  #fine#,
+			  #total_tax#,
+			  #first_half_year#,
+			  #second_half_year#,
+			  #tax_year#,
+			  #comment#,
+			  #record_time#,
+			  #record_person#,
+			  #record_person_belong#,
+			  #checked#,
+			  #checked_person#
+			);
+	</statement>
+	
+	<statement id="deleteByID" parameterClass="com.ibatis.bean.tax">
+		delete from tax where tax_id=#tax_id#;
+	</statement>
+	
+	<statement id="selectByID" parameterClass="com.ibatis.bean.tax"
+		resultClass="com.ibatis.bean.tax">
+		select * from tax where tax_id=#tax_id#; 
+	</statement>
+	
+	<statement id="selectByProID" parameterClass="com.ibatis.bean.tax"
+		resultClass="com.ibatis.bean.tax">
+		select * from tax where property_id=#property_id# order by tax_year desc;
+	</statement>
+	
+	<statement id="TB_selectByMulti" parameterClass="com.ibatis.bean.tax"
+		resultClass="com.ibatis.bean.tax">
+		SELECT
+			manage_id,
+			systemcode,
+			street,
+			storecode,
+			propertyowner,
+			originalvalue,
+			housearea,
+			storecategory,
+			storename,
+			business_name,
+			business_tax,
+			individual_income_tax,
+			urban_construction_tax,
+			education_surcharge,
+			local_education_surcharge,
+			stamp_tax,
+			price_regulation_fund,
+			building_tax,
+			land_use_tax,
+			fine_for_delaying_payment,
+			fine,
+			total_tax,
+			belong_year,
+			first_half_year,
+			second_half_year,
+			checked,
+			record_time,
+			record_person,
+			belong as belong_place
+		FROM
+			baseinfo,
+			tax
+		WHERE
+			baseinfo.id = tax.manage_id
+			<dynamic>
+				<isNotEmpty property="belong_year"
+					open="and (" close=") ">
+					belong_year=#belong_year#
+				</isNotEmpty>
+				<isNotEmpty property="manage_id"
+					open="and (" close=") ">
+					manage_id=#manage_id#
+				</isNotEmpty>
+				<isNotEmpty property="systemcode"
+					open="and (" close=") ">
+					systemcode=#systemcode#
+				</isNotEmpty>
+				<isNotEmpty property="street"
+					open="and (" close=") ">
+					street like '%$street$%'
+				</isNotEmpty>
+				<isNotEmpty property="storecode"
+					open="and (" close=") ">
+					storecode like '%$storecode$%'
+				</isNotEmpty>
+				<isNotEmpty property="propertyowner"
+					open="and (" close=") ">
+					propertyowner like '%$propertyowner$%'
+				</isNotEmpty>
+				<isNotEmpty property="storename"
+					open="and (" close=") ">
+					storename like '%$storename$%'
+				</isNotEmpty>
+				<isNotEmpty property="business_name"
+					open="and (" close=") ">
+					business_name like '%$business_name$%'
+				</isNotEmpty>
+				<isNotEmpty property="checked"
+					open="and (" close=") ">
+					checked=#checked#
+				</isNotEmpty>
+				<isNotNull property="first_half_year">
+					<isEqual property="first_half_year" compareValue="1"
+						open="and (" close=") ">
+						first_half_year='1' and second_half_year='1'
+					</isEqual>
+					<isEqual property="first_half_year" compareValue="0"
+						open="and (" close=") ">
+						first_half_year='0' || second_half_year='0'
+					</isEqual>
+				</isNotNull>
+			</dynamic>
+		ORDER BY
+			baseinfo.id,
+			tax.belong_year
+		;
+	</statement>
+	
+	<statement id="selectAll" resultClass="com.ibatis.bean.tax">
+		select * from tax;
+	</statement>
+	
+	<statement id="update" parameterClass="com.ibatis.bean.tax" >
+	</statement>
+	
+</sqlMap>
+

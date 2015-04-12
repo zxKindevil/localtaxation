@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="template">
+
+	<statement id="insert" 
+	    parameterClass="com.ibatis.bean.template">
+		insert into
+		template (str1,str2)
+		values (
+		#str1#,#str2#
+		);
+	</statement>
+
+	<statement id="deleteAll">
+		delete from template;
+	</statement>
+
+	<statement id="deleteByID" parameterClass="com.ibatis.bean.template">
+		delete from
+		template where
+		str1 = #str1#
+	</statement>
+	
+	<statement id="selectAll" resultClass="com.ibatis.bean.template">
+		select * from template
+	</statement>
+
+	<statement id="selectByID" parameterClass="com.ibatis.bean.template"
+		resultClass="com.ibatis.bean.template">
+		select * from template 
+		where 
+		str1=#str1#;
+	</statement>
+	
+	<statement id="update" parameterClass="com.ibatis.bean.template">
+		update
+		template set
+		str2=#str2#
+		where str1=#str1#
+	</statement>
+</sqlMap>
+
